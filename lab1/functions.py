@@ -27,10 +27,18 @@ def operation(num1, num2, operator):
             return print("This operation does not exist")
 
 
+def inputList(a):
+    while True:
+        for num in a:
+            if not num.isdigit():
+                return inputList(input("Try again "))
+            return a
+
+
 def evenNumbers(list, newList):
     for num in list:
         if int(num) % 2 == 0:
-            newList.append(num)
+            newList.append(int(num))
         else:
             int(num)+1
 
