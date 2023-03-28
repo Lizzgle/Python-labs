@@ -4,9 +4,9 @@ import functions
 print("Hello world")
 
 #Task2
-first = 6
-second = 2
-operator = 'add'
+first = functions.inputData(input("Enter first number "))
+second = functions.inputData(input("Enter second number "))
+operator = input("Enter operation ")
 
-result = functions.operation(first, second, operator)
+result = functions.operation(int(first), int(second), operator)
 print(result)
