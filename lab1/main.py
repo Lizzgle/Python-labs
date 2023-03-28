@@ -10,3 +10,10 @@ operator = input("Enter operation ")
 
 result = functions.operation(int(first), int(second), operator)
 print(result)
+
+#Task3
+mylist = [1, 2, 4, 5]
+newList = []
+result = functions.evenNumbers(mylist, newList)
+print("list of even-numbers: ", result)
+
