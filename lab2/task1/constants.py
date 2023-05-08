@@ -12,6 +12,7 @@ FILES = r'w+\.w+'                   # dot in the file name
 ELLIPSIS = r'\.\.\.'                # ...
 DOUBLE_SIGNS = r"[\?\!|.]{2,}"      # ?!
 NAME = r"[A-Z]\. [A-Z]\. "          # E. L. Lastname
-NUM_SENTENSIS = r"[\.?!]"
-NUM_DECLARE_SENTENSIS = r"[!?]"
 FLOAT_NUMBERS = r"\b\d+e[+-]\d+|\b\d+[.,]?\d+|\b\d+"
+
+NUM_SENTENCIS = r"[\.?!]"
+NUM_NONDECLARE_SENTENCIS = r"[!?]"
