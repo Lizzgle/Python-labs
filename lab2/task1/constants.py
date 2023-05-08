@@ -5,3 +5,13 @@ ABBREVIATIONS = (
     r'ft\.', r'cm\.', r'kg\.', r'g\.',  r'lbs\.', r'in\.', r'sec\.',
     r'etc\.', r'e\.g\.', r'c\.', r'i\.e\.', r'exp\.', r'ex\.', r'vs\.', r'err\.', r'P\.S\.', r'P\.S\.S\.'
 )
+
+# REGULARS
+
+FILES = r'w+\.w+'                   # dot in the file name
+ELLIPSIS = r'\.\.\.'                # ...
+DOUBLE_SIGNS = r"[\?\!|.]{2,}"      # ?!
+NAME = r"[A-Z]\. [A-Z]\. "          # E. L. Lastname
+NUM_SENTENSIS = r"[\.?!]"
+NUM_DECLARE_SENTENSIS = r"[!?]"
+FLOAT_NUMBERS = r"\b\d+e[+-]\d+|\b\d+[.,]?\d+|\b\d+"
