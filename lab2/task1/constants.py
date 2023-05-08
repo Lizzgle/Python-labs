@@ -18,3 +18,5 @@ MATH_SIGNS = r"[/*+=-]"
 
 NUM_SENTENCES = r"[\.?!]"
 NUM_NONDECLARE_SENTENCES = r"[!?]"
+
+K = 10

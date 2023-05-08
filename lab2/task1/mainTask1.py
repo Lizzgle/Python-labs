@@ -1,4 +1,5 @@
-from task1.functions import correctText, amountOfSentences, amountOfNondecSentences, showOnlyWords, averageLengthSent, averageLengthWords
+from task1.functions import correctText, amountOfSentences, amountOfNondecSentences, showOnlyWords, averageLengthSent, averageLengthWords, menu
+from task1.constants import K
 def mainTask1():
     with open("task1/test.txt") as f:
         text = f.read()
@@ -15,3 +16,5 @@ def mainTask1():
     print(f"average length of the sentence in characters: {averageLengthSent(CORRECT_TEXT, ONLY_WORDS)}")
 
     print(f"average length of the word in the text in characters: {averageLengthWords(ONLY_WORDS)}")
+
+    print(f"Ngrams: {menu(text, ONLY_WORDS)}")
