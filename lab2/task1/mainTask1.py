@@ -1,5 +1,4 @@
 from task1.functions import correctText, amountOfSentences, amountOfNondecSentences, showOnlyWords, averageLengthSent, averageLengthWords, menu
-from task1.constants import K
 def mainTask1():
     with open("task1/test.txt") as f:
         text = f.read()

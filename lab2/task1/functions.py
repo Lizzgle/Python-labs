@@ -1,6 +1,6 @@
 import re
 from task1.constants import ABBREVIATIONS, FILES, ELLIPSIS, DOUBLE_SIGNS, NAME, NUMBERS, MATH_SIGNS
-from task1.constants import NUM_SENTENCES, NUM_NONDECLARE_SENTENCES, PUNCTUATION, K
+from task1.constants import NUM_SENTENCES, NUM_NONDECLARE_SENTENCES, PUNCTUATION
 def correctText(text):
     t = re.sub(FILES, "", text)
     t = re.sub(ELLIPSIS, ".", t)
