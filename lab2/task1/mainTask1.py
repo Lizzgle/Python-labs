@@ -12,7 +12,7 @@ def mainTask1():
 
     print(f"amount of non-declarative sentences in the text: {amountOfNondecSentences(CORRECT_TEXT)}")
 
-    # print(f"{showOnlyWords(text)}")
+    print(f"{showOnlyWords(text)}")
     print(f"average length of the sentence in characters: {averageLengthSent(CORRECT_TEXT, ONLY_WORDS)}")
 
     print(f"average length of the word in the text in characters: {averageLengthWords(ONLY_WORDS)}")

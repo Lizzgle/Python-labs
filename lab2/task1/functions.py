@@ -12,7 +12,7 @@ def correctText(text):
     for abbr in ABBREVIATIONS:
         t = re.sub(abbr, "", t)
 
-    # print(t)
+    print(t)
 
     return t
 
@@ -27,7 +27,7 @@ def showOnlyWords(text):
     t = re.sub(MATH_SIGNS, "", t)
     t = re.sub(PUNCTUATION, "", t)
 
-    # print(t)
+    print(t)
 
     return t.split()
 
