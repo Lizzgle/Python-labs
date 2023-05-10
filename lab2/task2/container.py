@@ -1,4 +1,5 @@
 import re
+from task2.constants import PATH
 class Container:
 
     def __int__(self, *args):
@@ -8,6 +9,9 @@ class Container:
             self.__container.update(set(args))
         except Exception:
             print("Error when adding")
+
+    def __str__(self):
+        return self.__container.__str__()
 
     def add(self, *args):
         try:
@@ -46,3 +50,26 @@ class Container:
             return "No such element"
 
         return result
+
+class User:
+
+    def __init__(self):
+        self.__users = dict()
+        with open(PATH + "users.txt", 'r') as file:
+            for user_cont in file.readlines():
+                user_cont = user_cont.split()
+                self.__users[user_cont[0]] = user_cont[1]
+
+    def __del__(self):
+        with open(PATH + "users.txt", 'w') as file:
+            for user in self.__users:
+                file.write(user + " " + self.__users[user] + "\n")
+
+    def add_user(self, username: str):
+        self.__users[username] = PATH + username + "\'sContainer.txt"
+
+    def find_user(self, username: str):
+        return self.__users[username]
+
+    def list_users(self):
+        print(self.__users)
