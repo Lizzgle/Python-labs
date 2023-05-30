@@ -21,6 +21,12 @@ def serialize(obj):
     elif inspect.isfunction(obj):
         return serialize_function(obj)
 
+    elif inspect.iscode(obj):
+        return serialize_code(obj)
+
+    elif isinstance(obj, types.CellType):
+        return serialize_cell(obj)
+
 def get_obj_type(obj):
     return re.search(r"\'(\w+)\'", str(type(obj)))[1]
 
@@ -96,3 +102,19 @@ def get_globals(func, cls=None):
 
     return glob
 
+def serialize_code(obj):
+    srz = dict()
+
+    srz["type"] = "code"
+    srz["value"] = {key: serialize(value) for key, value in inspect.getmembers(obj)
+                    if key in CODE_ATTRIBUTES}
+    return srz
+
+
+def serialize_cell(obj):
+    srz = dict()
+
+    srz["type"] = "cell"
+    srz["value"] = serialize(obj.cell_contents)
+
+    return srz
