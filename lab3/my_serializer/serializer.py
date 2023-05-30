@@ -2,7 +2,7 @@ import inspect
 import re
 import types
 
-from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, CODE_ATTRIBUTES
+from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, CODE_ATTRIBUTES, CLASS_PROPERTIES, TYPESES
 
 def serialize(obj):
 
@@ -26,6 +26,9 @@ def serialize(obj):
 
     elif isinstance(obj, types.CellType):
         return serialize_cell(obj)
+
+    elif inspect.isclass(obj):
+        return serialize_class(obj)
 
 def get_obj_type(obj):
     return re.search(r"\'(\w+)\'", str(type(obj)))[1]
@@ -116,5 +119,50 @@ def serialize_cell(obj):
 
     srz["type"] = "cell"
     srz["value"] = serialize(obj.cell_contents)
+
+    return srz
+
+
+def serialize_class(obj):
+    srz = dict()
+
+    srz["type"] = "class"
+    srz["value"] = full_class_serialize(obj)
+
+    return srz
+
+def full_class_serialize(obj):
+    srz = dict()
+    srz["__name__"] = serialize(obj.__name__)
+
+    for key, value in obj.__dict__.items():
+
+        if key in CLASS_PROPERTIES or type(value) in TYPESES:
+            continue
+
+        if isinstance(obj.__dict__[key], staticmethod):
+            srz[key] = dict()
+            srz[key]["type"] = "staticmethod"
+            srz[key]["value"] = {"type": "function", "value": full_function_serialize(value.__func__, obj)}
+
+        elif isinstance(obj.__dict__[key], classmethod):
+            srz[key] = dict()
+            srz[key]["type"] = "classmethod"
+            srz[key]["value"] = {"type": "function", "value": full_function_serialize(value.__func__, obj)}
+
+        elif inspect.ismethod(value):
+            srz[key] = full_function_serialize(value.__func__, obj)
+
+        elif inspect.isfunction(value):
+            srz[key] = dict()
+            srz[key]["type"] = "function"
+            srz[key]["value"] = full_function_serialize(value, obj)
+
+        else:
+            srz[key] = serialize(value)
+
+    srz["__bases__"] = dict()
+    srz["__bases__"]["type"] = "tuple"
+    srz["__bases__"]["value"] = [serialize(base) for base in obj.__bases__ if base != object]
 
     return srz
