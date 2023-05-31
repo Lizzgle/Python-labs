@@ -2,7 +2,7 @@ import inspect
 import re
 import types
 
-from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, CODE_ATTRIBUTES, CLASS_PROPERTIES, TYPESES, BASE_COLLECTIONS
+from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, CODE_ATTRIBUTES, CLASS_PROPERTIES, TYPESES, BASE_COLLECTIONS, METHODS
 
 def serialize(obj):
 
@@ -215,6 +215,15 @@ def deserialize(obj):
     elif obj["type"] == "function":
         return deserialize_function(obj["value"])
 
+    elif obj["type"] == "class":
+        return deserialize_class(obj["value"])
+
+    elif obj["type"] in METHODS:
+        return METHODS[obj["type"]](deserialize(obj["value"]))
+
+    elif obj["type"] == "object":
+        return deserialize_object(obj["value"])
+
 def extract_keys(string):
     return re.search(r"\[.*\]", string).group()
 
@@ -270,3 +279,26 @@ def deserialize_globals(globs, func):
 
     return des_globals
 
+
+def deserialize_class(obj):
+    bases = deserialize(obj["__bases__"])
+
+    members = {member: deserialize(value) for member, value in obj.items()}
+
+    cls = type(deserialize(obj["__name__"]), bases, members)
+
+    for k, member in members.items():
+        if (inspect.isfunction(member)):
+            member.__globals__.update({cls.__name__: cls})
+        elif isinstance(member, (staticmethod, classmethod)):
+            member.__func__.__globals__.update({cls.__name__: cls})
+
+    return cls
+
+def deserialize_object(obj):
+    cls = deserialize(obj["__class__"])
+
+    des = object.__new__(cls)
+    des.__dict__ = {key: deserialize(value) for key, value in obj["__members__"].items()}
+
+    return des

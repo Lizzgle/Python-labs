@@ -37,3 +37,5 @@ TYPESES = (
                 types.GetSetDescriptorType,
                 types.MappingProxyType
             )
+
+METHODS = {"staticmethod": staticmethod, "classmethod": classmethod}
