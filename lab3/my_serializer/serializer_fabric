@@ -1,0 +1,10 @@
+from my_serializer.serializer_json import serialise_JSON
+
+class Serializer_fabric:
+
+    @staticmethod
+    def create_serializer(format_name: str):
+        format_name = format_name.lower()
+
+        if (format_name == "json"):
+            return serialise_JSON()

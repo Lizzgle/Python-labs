@@ -2,7 +2,8 @@ import inspect
 import re
 import types
 
-from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, CODE_ATTRIBUTES, CLASS_PROPERTIES, TYPESES, BASE_COLLECTIONS, METHODS
+from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, \
+    CODE_ATTRIBUTES, CLASS_PROPERTIES, TYPESES, BASE_COLLECTIONS, METHODS
 
 def serialize(obj):
 
@@ -221,6 +222,9 @@ def deserialize(obj):
     elif obj["type"] in METHODS:
         return METHODS[obj["type"]](deserialize(obj["value"]))
 
+    elif obj["type"] == "cell":
+        return deserialize_cell(obj)
+
     elif obj["type"] == "object":
         return deserialize_object(obj["value"])
 
@@ -302,3 +306,6 @@ def deserialize_object(obj):
     des.__dict__ = {key: deserialize(value) for key, value in obj["__members__"].items()}
 
     return des
+
+def deserialize_cell(obj):
+    return types.CellType(deserialize(obj["value"]))

@@ -39,3 +39,17 @@ TYPESES = (
             )
 
 METHODS = {"staticmethod": staticmethod, "classmethod": classmethod}
+
+#regex
+INT_REGULAR = r"[+-]?\d+"
+FLOAT_REGULAR = r"(?:[+-]?\d+(?:\.\d+)?(?:e[+-]?\d+)?)"
+BOOL_REGULAR = r"((?:true)|(?:false))\b"
+STR_REGULAR = r"\"(?:(?:\\\")|[^\"])*\""
+NONE_REGULAR = r"\b(?:Null)\b"
+COMPLEX_REGULAR = fr"{INT_REGULAR}{INT_REGULAR}j"
+
+LIST_RECURSION = r"\[(?R)?(?:,(?R))*\]"
+VALUE_RECURSION = r"\{(?:(?R):(?R))?(?:,(?R):(?R))*\}"
+
+VALUE_REGULAR_EXPR = fr"\s*({LIST_RECURSION}|{VALUE_RECURSION}|{STR_REGULAR}|{FLOAT_REGULAR}|" \
+                fr"{BOOL_REGULAR}|{INT_REGULAR}|{NONE_REGULAR}|{COMPLEX_REGULAR}\s*)"
