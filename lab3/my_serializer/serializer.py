@@ -209,6 +209,9 @@ def deserialize(obj):
     elif obj["type"] in str(BASE_COLLECTIONS.keys()):
         return deserialize_base_collections(obj)
 
+    elif obj["type"] == "code":
+        return deserialize_code(obj["value"])
+
 def extract_keys(string):
     return re.search(r"\[.*\]", string).group()
 
@@ -226,3 +229,8 @@ def deserialize_base_collections(obj):
     # tbh deserializes dictionary. Probably BASE_COLLECTION could be replaced by dict but fig s nim
     elif collection_type in BASE_COLLECTIONS.keys():
         return BASE_COLLECTIONS[collection_type]({deserialize(item[0]): deserialize(item[1]) for item in obj["value"]})
+
+
+def deserialize_code(code):
+    return types.CodeType(*(deserialize(code[prop]) for prop in CODE_ATTRIBUTES))
+
