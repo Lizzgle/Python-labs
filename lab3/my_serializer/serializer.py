@@ -2,7 +2,7 @@ import inspect
 import re
 import types
 
-from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, CODE_ATTRIBUTES, CLASS_PROPERTIES, TYPESES
+from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, CODE_ATTRIBUTES, CLASS_PROPERTIES, TYPESES, BASE_COLLECTIONS
 
 def serialize(obj):
 
@@ -200,3 +200,29 @@ def full_object_serialization(obj):
                             if not (key.startswith("__") or inspect.isfunction(value) or inspect.ismethod(value))}
 
     return value
+
+def deserialize(obj):
+
+    if obj["type"] in extract_keys(str(BASE_TYPES.keys())):
+        return deserialize_base_type(obj)
+
+    elif obj["type"] in str(BASE_COLLECTIONS.keys()):
+        return deserialize_base_collections(obj)
+
+def extract_keys(string):
+    return re.search(r"\[.*\]", string).group()
+
+def deserialize_base_type(obj):
+    return BASE_TYPES[obj["type"]](obj["value"])
+
+def deserialize_base_collections(obj):
+    # Getting type of collection
+    collection_type = obj["type"]
+
+    if collection_type in SIMILAR_COLLECTIONS.keys():
+        # type cast to certain collection from deserialized objects
+        return SIMILAR_COLLECTIONS[collection_type](deserialize(item) for item in obj["value"])
+
+    # tbh deserializes dictionary. Probably BASE_COLLECTION could be replaced by dict but fig s nim
+    elif collection_type in BASE_COLLECTIONS.keys():
+        return BASE_COLLECTIONS[collection_type]({deserialize(item[0]): deserialize(item[1]) for item in obj["value"]})
