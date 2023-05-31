@@ -30,6 +30,9 @@ def serialize(obj):
     elif inspect.isclass(obj):
         return serialize_class(obj)
 
+    else:
+        return serialize_object(obj)
+
 def get_obj_type(obj):
     return re.search(r"\'(\w+)\'", str(type(obj)))[1]
 
@@ -166,3 +169,34 @@ def full_class_serialize(obj):
     srz["__bases__"]["value"] = [serialize(base) for base in obj.__bases__ if base != object]
 
     return srz
+
+def serialize_object(obj):
+    srz = dict()
+
+    if isinstance(obj, property):
+        srz["type"] = "property"
+        srz["value"] = serialize_property(obj)
+    else:
+        srz["type"] = "object"
+        srz["value"] = full_object_serialization(obj)
+
+    return srz
+
+def serialize_property(obj):
+    val = dict()
+
+    val["fget"] = serialize(obj.fget)
+    val["fset"] = serialize(obj.fset)
+    val["fdel"] = serialize(obj.fdel)
+
+    return val
+
+def full_object_serialization(obj):
+    value = dict()
+
+    value["__class__"] = serialize(obj.__class__)
+
+    value["__members__"] = {key: serialize(value) for key, value in inspect.getmembers(obj)
+                            if not (key.startswith("__") or inspect.isfunction(value) or inspect.ismethod(value))}
+
+    return value
