@@ -53,3 +53,9 @@ VALUE_RECURSION = r"\{(?:(?R):(?R))?(?:,(?R):(?R))*\}"
 
 VALUE_REGULAR_EXPR = fr"\s*({LIST_RECURSION}|{VALUE_RECURSION}|{STR_REGULAR}|{FLOAT_REGULAR}|" \
                 fr"{BOOL_REGULAR}|{INT_REGULAR}|{NONE_REGULAR}|{COMPLEX_REGULAR}\s*)"
+
+BASES_TYPES = r"str|int|float|bool|NoneType|list|dict"
+key = fr"key"
+val = fr"value"
+
+ELEMENT_REGULAR = fr"\s*(\<(?P<{key}>{BASES_TYPES})\>(?P<{val}>([^<>]*)|(?R)+)\</(?:{BASES_TYPES})\>)\s*"
