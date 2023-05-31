@@ -212,6 +212,9 @@ def deserialize(obj):
     elif obj["type"] == "code":
         return deserialize_code(obj["value"])
 
+    elif obj["type"] == "function":
+        return deserialize_function(obj["value"])
+
 def extract_keys(string):
     return re.search(r"\[.*\]", string).group()
 
@@ -233,4 +236,37 @@ def deserialize_base_collections(obj):
 
 def deserialize_code(code):
     return types.CodeType(*(deserialize(code[prop]) for prop in CODE_ATTRIBUTES))
+
+def deserialize_function(func):
+    code = func["__code__"]
+    globs = func["__globals__"]
+    func_closure = func["__closure__"]
+
+    des_globals = deserialize_globals(globs, func)
+
+    cl = deserialize(func_closure)
+    if cl:
+        closure = tuple(cl)
+    else:
+        closure = tuple()
+    codeType = deserialize_code(code)
+
+    des_globals["__builtins__"] = __import__("builtins")
+    des_function = types.FunctionType(code=codeType, globals=des_globals, closure=closure)
+    des_function.__globals__.update({des_function.__name__: des_function})
+
+    return des_function
+
+
+def deserialize_globals(globs, func):
+    des_globals = dict()
+
+    for glob in globs:
+        if "module" in glob:
+            des_globals[globs[glob]["value"]] = __import__(globs[glob]["value"])
+
+        elif globs[glob] != func["__name__"]:
+            des_globals[glob] = deserialize(globs[glob])
+
+    return des_globals
 
