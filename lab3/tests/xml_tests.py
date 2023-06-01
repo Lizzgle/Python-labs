@@ -1,6 +1,6 @@
 import unittest
 
-from my_serializer.serializer_xml import serialize_XML
+from serializerLiza153501.serializer_xml import serialize_XML
 from tests.data_tests import my_func, my_decorator, for_dec, A, B, C
 
 

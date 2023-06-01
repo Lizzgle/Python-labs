@@ -2,7 +2,7 @@ import inspect
 import re
 import types
 
-from my_serializer.constants import BASE_TYPES, SIMILAR_COLLECTIONS, \
+from serializerLiza153501.constants import BASE_TYPES, SIMILAR_COLLECTIONS, \
     CODE_ATTRIBUTES, CLASS_PROPERTIES, TYPESES, BASE_COLLECTIONS, METHODS
 
 def serialize(obj):

@@ -1,16 +1,26 @@
-# This is a sample Python script.
+import argparse
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from serializerLiza153501.serializer_fabric import Serializer_fabric
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Serialization from file to file')
+    parser.add_argument('file_from', type=str, help='Input filepath for file_from')
+    parser.add_argument('file_to', type=str, help='Input filepath for file_to')
+    parser.add_argument('format_from', type=str, help='Input format_from')
+    parser.add_argument('format_to', type=str, help='Input format_to')
+    args = parser.parse_args()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    file_from = args.file_from
+    file_to = args.file_to
 
+    format_from = args.format_from
+    format_to = args.format_to
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    format_from = Serializer_fabric.create_zavod(format_to)
+    format_to = Serializer_fabric.create_zavod(format_to)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    with open(file_from, "r") as file:
+        obj = format_from.load(file)
+
+    with open(file_to, "w") as file:
+        format_to.dump(obj, file)

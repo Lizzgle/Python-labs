@@ -1,7 +1,7 @@
 import regex
 
-from my_serializer.serializer import serialize, deserialize
-from my_serializer.constants import ELEMENT_REGULAR
+from serializerLiza153501.serializer import serialize, deserialize
+from serializerLiza153501.constants import ELEMENT_REGULAR
 
 class serialize_XML:
 

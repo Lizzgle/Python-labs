@@ -1,6 +1,6 @@
 import unittest
 
-from my_serializer.serializer_json import serialise_JSON
+from serializerLiza153501.serializer_json import serialise_JSON
 from data_tests import my_func, my_decorator, for_dec, A, B, C
 
 class JsonTestCase(unittest.TestCase):

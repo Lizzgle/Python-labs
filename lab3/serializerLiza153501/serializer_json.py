@@ -1,7 +1,7 @@
 import regex
 
-from my_serializer.serializer import serialize, deserialize
-from my_serializer.constants import INT_REGULAR, FLOAT_REGULAR, NONE_REGULAR, BOOL_REGULAR, VALUE_REGULAR_EXPR
+from serializerLiza153501.serializer import serialize, deserialize
+from serializerLiza153501.constants import INT_REGULAR, FLOAT_REGULAR, NONE_REGULAR, BOOL_REGULAR, VALUE_REGULAR_EXPR
 
 class serialise_JSON:
 
